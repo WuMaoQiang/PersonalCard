@@ -49,7 +49,7 @@ public class MainActivity extends BaseActivity {
         //快速模糊
         Bitmap bitmapFastBlur = ImageUtils.fastBlur(bitmap, 0.5f, 1);
         imageView.setImageBitmap(bitmapFastBlur);
-
+//ccfenzhi
 
     }
 }
