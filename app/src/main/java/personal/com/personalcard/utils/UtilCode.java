@@ -67,7 +67,7 @@ public class UtilCode {
          * 获取app的信息
          */
         final AppUtils.AppInfo appInfo = AppUtils.getAppInfo();
-        LogUtils.i(appInfo.getPackagePath());
+//        LogUtils.i(appInfo.getPackagePath());
         List<AppUtils.AppInfo> appsInfo = AppUtils.getAppsInfo();
         for (AppUtils.AppInfo appInfo1:appsInfo){
 //            String name = appInfo1.getName();

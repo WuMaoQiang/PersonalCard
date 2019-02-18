@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -34,36 +35,37 @@ public class MainActivity extends BaseActivity {
         TextView textView = findViewById(R.id.tv);
 
 
-        List<String> permissions = PermissionUtils.getPermissions();
+
+        //获取注册的权限列表
+        final List<String> permissions = PermissionUtils.getPermissions();
         LogUtils.i(permissions.get(0));
-        boolean granted = PermissionUtils.isGranted(permissions.toString());
+        //判断是否有权限
+        boolean granted = PermissionUtils.isGranted(permissions.get(0).toString());
         LogUtils.i(granted);
-
-        PermissionUtils permission = PermissionUtils.permission(permissions.toString());
-
-
+        //创建permission 进行申请权限，并设置回调
+        PermissionUtils permission = PermissionUtils.permission(permissions.get(0).toString());
         permission.callback(new PermissionUtils.FullCallback() {
             @Override
             public void onGranted(List<String> permissionsGranted) {
                 LogUtils.i("onGranted");
-
             }
 
             @Override
             public void onDenied(List<String> permissionsDeniedForever, List<String> permissionsDenied) {
-                LogUtils.i("denied");
-            }
-        });
-        permission.theme(new PermissionUtils.ThemeCallback() {
-            @Override
-            public void onActivityCreate(Activity activity) {
+                if (!ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this, permissions.get(0).toString())) {//选择不在提示
+                    LogUtils.i("denied alal");
+                    PermissionUtils.launchAppDetailsSettings();
+                } else {
+                    LogUtils.i("denied");
 
+                }
             }
-        });
-        permission.request();
+        }).request();
+
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {PermissionUtils.launchAppDetailsSettings();
+            public void onClick(View v) {
+
             }
         });
 
