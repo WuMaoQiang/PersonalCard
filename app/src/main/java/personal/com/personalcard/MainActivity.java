@@ -1,19 +1,22 @@
 package personal.com.personalcard;
 
-import android.Manifest;
-import android.content.pm.PackageManager;
+import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.os.Environment;
-import android.support.v4.app.ActivityCompat;
 import android.view.View;
-import android.view.Window;
 import android.widget.ImageView;
+import android.widget.TextView;
 
-import com.blankj.utilcode.util.CrashUtils;
-import com.blankj.utilcode.util.DeviceUtils;
 import com.blankj.utilcode.util.ImageUtils;
+import com.blankj.utilcode.util.LogUtils;
+import com.blankj.utilcode.util.NetworkUtils;
+import com.blankj.utilcode.util.PermissionUtils;
+import com.blankj.utilcode.util.SPUtils;
+import com.blankj.utilcode.util.SpanUtils;
+import com.blankj.utilcode.util.StringUtils;
+
+import java.util.List;
 
 import personal.com.personalcard.base.BaseActivity;
 import personal.com.personalcard.utils.UtilCode;
@@ -28,6 +31,41 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ImageView imageView = findViewById(R.id.img);
+        TextView textView = findViewById(R.id.tv);
+
+
+        List<String> permissions = PermissionUtils.getPermissions();
+        LogUtils.i(permissions.get(0));
+        boolean granted = PermissionUtils.isGranted(permissions.toString());
+        LogUtils.i(granted);
+
+        PermissionUtils permission = PermissionUtils.permission(permissions.toString());
+
+
+        permission.callback(new PermissionUtils.FullCallback() {
+            @Override
+            public void onGranted(List<String> permissionsGranted) {
+                LogUtils.i("onGranted");
+
+            }
+
+            @Override
+            public void onDenied(List<String> permissionsDeniedForever, List<String> permissionsDenied) {
+                LogUtils.i("denied");
+            }
+        });
+        permission.theme(new PermissionUtils.ThemeCallback() {
+            @Override
+            public void onActivityCreate(Activity activity) {
+
+            }
+        });
+        permission.request();
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {PermissionUtils.launchAppDetailsSettings();
+            }
+        });
 
         UtilCode.function(this);//工具类测试
 
@@ -49,7 +87,7 @@ public class MainActivity extends BaseActivity {
         //快速模糊
         Bitmap bitmapFastBlur = ImageUtils.fastBlur(bitmap, 0.5f, 1);
         imageView.setImageBitmap(bitmapFastBlur);
-//ccfenzhi
+
 
     }
 }
