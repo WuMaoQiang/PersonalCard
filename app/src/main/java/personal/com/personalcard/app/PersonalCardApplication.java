@@ -4,6 +4,7 @@ import android.app.Application;
 
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.Utils;
+import com.squareup.leakcanary.LeakCanary;
 
 import static com.blankj.utilcode.util.CrashUtils.init;
 
@@ -17,6 +18,7 @@ public class PersonalCardApplication extends Application {
     public void onCreate() {
         super.onCreate();
         Utils.init(PersonalCardApplication.this);
+        LeakCanary.install(this);
         LogUtils.Config config = LogUtils.getConfig();
         config.setGlobalTag("xiaoqiang");
     }
