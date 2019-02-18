@@ -1,32 +1,48 @@
 package personal.com.personalcard;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.view.KeyEvent;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.PermissionUtils;
+import com.blankj.utilcode.util.ToastUtils;
 
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.OnClick;
 import personal.com.personalcard.base.BaseActivity;
+import personal.com.personalcard.fragment.HomePageFragment;
+import personal.com.personalcard.fragment.SecondFragment;
+import personal.com.personalcard.fragment.ThirdFragment;
 
 /**
  * 使用柯基整理的 blankj:utilcode
  */
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
+    @BindView(R.id.container)
+    FrameLayout mContainer;
+    @BindView(R.id.navigation_view)
+    NavigationView mNavigationView;
+    @BindView(R.id.drawer_layout)
+    DrawerLayout mDrawerLayout;
 
-    @BindView(R.id.img)
-    ImageView img;
-    @BindView(R.id.tv)
-    TextView tv;
-    @BindView(R.id.tv2)
-    TextView tv2;
 
+    private Fragment[] fragments;
+    private int currentTabIndex;
+    private int index;
+    private long exitTime;
+    private HomePageFragment mHomePageFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +55,138 @@ public class MainActivity extends BaseActivity {
     @Override
     public int getLayoutId() {
         return R.layout.activity_main;
+    }
+
+    @Override
+    public void initViews(Bundle savedInstanceState) {
+        //初始化Fragment
+        initFragments();
+        //初始化侧滑菜单
+        initNavigationView();
+    }
+
+    /**
+     * 初始化Fragments
+     */
+    private void initFragments() {
+        mHomePageFragment = HomePageFragment.newInstance();
+        SecondFragment mFavoritesFragment = SecondFragment.newInstance();
+        ThirdFragment thirdFragment = ThirdFragment.newInstance();
+
+        fragments = new Fragment[]{
+                mHomePageFragment,
+                mFavoritesFragment,
+                thirdFragment
+
+        };
+        // 添加显示第一个fragment
+        getSupportFragmentManager()
+                .beginTransaction()
+                .add(R.id.container, mHomePageFragment)
+                .show(mHomePageFragment).commit();
+    }
+
+    /**
+     * 初始化NavigationView
+     */
+    private void initNavigationView() {
+        View headerView = mNavigationView.getHeaderView(0);
+        mNavigationView.setNavigationItemSelectedListener(this);
+
+        TextView mUserName = (TextView) headerView.findViewById(R.id.user_name);
+        TextView mUserSign = (TextView) headerView.findViewById(R.id.user_other_info);
+        //设置用户名 签名
+        mUserName.setText(getResources().getText(R.string.hotbitmapgg));
+        mUserSign.setText(getResources().getText(R.string.about_user_head_layout));
+    }
+
+
+    /**
+     * DrawerLayout侧滑菜单开关
+     */
+    public void toggleDrawer() {
+        if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+            mDrawerLayout.closeDrawer(GravityCompat.START);
+        } else {
+            mDrawerLayout.openDrawer(GravityCompat.START);
+        }
+    }
+
+    /**
+     * 切换Fragment的下标
+     */
+    private void changeFragmentIndex(MenuItem item, int currentIndex) {
+        index = currentIndex;
+        switchFragment();
+        item.setChecked(true);
+    }
+
+    /**
+     * Fragment切换
+     */
+    private void switchFragment() {
+        FragmentTransaction trx = getSupportFragmentManager().beginTransaction();
+        trx.hide(fragments[currentTabIndex]);
+        if (!fragments[index].isAdded()) {
+            trx.add(R.id.container, fragments[index]);
+        }
+        trx.show(fragments[index]).commit();
+        currentTabIndex = index;
+    }
+
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        mDrawerLayout.closeDrawer(GravityCompat.START);
+        switch (item.getItemId()) {
+            case R.id.item_home:
+                // 主页
+                changeFragmentIndex(item, 0);
+                return true;
+
+            case R.id.item_favourite:
+                // 我的收藏
+                changeFragmentIndex(item, 1);
+                return true;
+
+            case R.id.item_theme:
+                // 主题选择
+                changeFragmentIndex(item, 2);
+
+                return true;
+        }
+
+        return false;
+
+    }
+
+    /**
+     * 监听back键处理DrawerLayout和SearchView
+     */
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if (mDrawerLayout.isDrawerOpen(mDrawerLayout.getChildAt(1))) {
+                mDrawerLayout.closeDrawers();
+            } else {
+
+                exitApp();
+            }
+        }
+        return true;
+    }
+
+
+    /**
+     * 双击退出App
+     */
+    private void exitApp() {
+        if (System.currentTimeMillis() - exitTime > 2000) {
+            ToastUtils.showShort("再按一次退出");
+            exitTime = System.currentTimeMillis();
+        } else {
+            finish();
+        }
     }
 
 
@@ -92,29 +240,6 @@ public class MainActivity extends BaseActivity {
 //        //快速模糊
 //        Bitmap bitmapFastBlur = ImageUtils.fastBlur(bitmap, 0.5f, 1);
 //        imageView.setImageBitmap(bitmapFastBlur);
-    }
-
-
-    @Override
-    public void initViews(Bundle savedInstanceState) {
-
-    }
-
-    @OnClick({R.id.img, R.id.tv,R.id.tv2})
-    public void onViewClicked(View view) {
-        switch (view.getId()) {
-            case R.id.img:
-                LogUtils.i("img");
-                break;
-            case R.id.tv:
-                LogUtils.i("tv");
-
-                break;
-            case R.id.tv2:
-                LogUtils.i("tv22");
-
-                break;
-        }
     }
 
 

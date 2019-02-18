@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/item_home"
+            android:checked="true"
+            android:icon="@drawable/ic_home_black_24dp"
+            android:title="@string/item_home" />
+
+
+
+    </group>
+
+
+    <group
+        android:id="@+id/group_user"
+        android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/item_favourite"
+            android:icon="@drawable/ic_star_black_24dp"
+            android:title="@string/item_favourite" />
+
+
+    </group>
+
+
+    <group android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/item_theme"
+            android:icon="@drawable/ic_color_lens_black_24dp"
+            android:title="@string/item_theme" />
+
+
+    </group>
+
+
+</menu>
