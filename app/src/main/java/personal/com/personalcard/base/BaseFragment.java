@@ -1,10 +1,13 @@
 package personal.com.personalcard.base;
 
+import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,13 +23,14 @@ import butterknife.Unbinder;
 public abstract class BaseFragment extends Fragment {
     private View parentView;
     private Unbinder bind;
+    private FragmentActivity activity;
 
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         parentView = inflater.inflate(getLayoutId(), container, false);
-
+        activity = getSupportActivity();
         return parentView;
     }
     @Override
@@ -36,7 +40,26 @@ public abstract class BaseFragment extends Fragment {
         initViews(savedInstanceState);
 
     }
-
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        this.activity = (FragmentActivity) activity;
+    }
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        this.activity = null;
+    }
+    public FragmentActivity getSupportActivity() {
+        return super.getActivity();
+    }
+    public Context getApplicationContext() {
+        return this.activity == null ? (getActivity() == null ?
+                null : getActivity().getApplicationContext()) : this.activity.getApplicationContext();
+    }
+    public android.app.ActionBar getSupportActionBar() {
+        return getSupportActivity().getActionBar();
+    }
 
     /**
      * 设置布局layout
