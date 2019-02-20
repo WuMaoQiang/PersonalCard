@@ -17,7 +17,7 @@ import static personal.com.personalcard.utils.Constant.TAG;
 
 /**
  * author:  cc
- * TODO
+ * TODO 用来测试com.blankj:utilcode 里面具体的工具类的使用，只是用来测试 ，项目中没用到
  * date:   On  2019/2/15
  */
 public class UtilCode {
@@ -75,6 +75,25 @@ public class UtilCode {
         //====================> 1.   BarUtils 状态栏相关
         BarUtils.setStatusBarColor(activity,  activity.getResources().getColor(R.color.colorAccent));
 
+//        UtilCode.function(this);//工具类测试
+//        //图片工具类 加文字水印
+//        Drawable aaa = getResources().getDrawable(R.drawable.aaa);
+//        Bitmap bitmap = ImageUtils.drawable2Bitmap(aaa);
+//        Drawable i = getResources().getDrawable(R.drawable.ic_launcher);
+//        Bitmap bitmap2 = ImageUtils.drawable2Bitmap(i);
+//        //文字水印
+//        Bitmap TestWatermark = ImageUtils.addTextWatermark(bitmap, "123", 20, getResources().getColor(R.color.colorAccent), 00.0f, 00.0f);
+////        imageView.setImageBitmap(TestWatermark);
+//        //图片水印
+//        Bitmap bitmapAddWatermark = ImageUtils.addImageWatermark(bitmap, bitmap2, 1, 11, 120);
+////        imageView.setImageBitmap(bitmapAddWatermark);
+//        //灰度图片
+//        Bitmap bitmapToGray = ImageUtils.toGray(bitmap2);
+////        imageView.setImageBitmap(bitmapToGray);
+//
+//        //快速模糊
+//        Bitmap bitmapFastBlur = ImageUtils.fastBlur(bitmap, 0.5f, 1);
+//        imageView.setImageBitmap(bitmapFastBlur);
     }
 
 }

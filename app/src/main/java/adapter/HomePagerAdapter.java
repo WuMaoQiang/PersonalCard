@@ -8,8 +8,6 @@ import android.support.v4.app.FragmentPagerAdapter;
 import personal.com.personalcard.R;
 import personal.com.personalcard.fragment.HomeFirstFragment;
 import personal.com.personalcard.fragment.HomeSecondFragment;
-import personal.com.personalcard.fragment.SecondFragment;
-import personal.com.personalcard.fragment.ThirdFragment;
 
 /**
  * Created by hcc on 16/8/4 14:12

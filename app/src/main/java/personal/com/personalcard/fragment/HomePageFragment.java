@@ -2,6 +2,7 @@ package personal.com.personalcard.fragment;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,14 +31,12 @@ public class HomePageFragment extends BaseFragment {
 
     @BindView(R.id.toolbar_user_avatar)
     CircleImageView mCircleImageView;
-    @BindView(R.id.navigation_layout)
-    LinearLayout mNavigationLayout;
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
     @BindView(R.id.sliding_tabs)
     SlidingTabLayout mSlidingTabs;
     @BindView(R.id.view_pager)
-    NoScrollViewPager mViewPager;
+    ViewPager mViewPager;
 
     public static HomePageFragment newInstance() {
         return new HomePageFragment();

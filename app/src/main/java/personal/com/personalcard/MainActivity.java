@@ -221,25 +221,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         }).request();
 
 
-//        UtilCode.function(this);//工具类测试
-//        //图片工具类 加文字水印
-//        Drawable aaa = getResources().getDrawable(R.drawable.aaa);
-//        Bitmap bitmap = ImageUtils.drawable2Bitmap(aaa);
-//        Drawable i = getResources().getDrawable(R.drawable.ic_launcher);
-//        Bitmap bitmap2 = ImageUtils.drawable2Bitmap(i);
-//        //文字水印
-//        Bitmap TestWatermark = ImageUtils.addTextWatermark(bitmap, "123", 20, getResources().getColor(R.color.colorAccent), 00.0f, 00.0f);
-////        imageView.setImageBitmap(TestWatermark);
-//        //图片水印
-//        Bitmap bitmapAddWatermark = ImageUtils.addImageWatermark(bitmap, bitmap2, 1, 11, 120);
-////        imageView.setImageBitmap(bitmapAddWatermark);
-//        //灰度图片
-//        Bitmap bitmapToGray = ImageUtils.toGray(bitmap2);
-////        imageView.setImageBitmap(bitmapToGray);
-//
-//        //快速模糊
-//        Bitmap bitmapFastBlur = ImageUtils.fastBlur(bitmap, 0.5f, 1);
-//        imageView.setImageBitmap(bitmapFastBlur);
     }
 
 
